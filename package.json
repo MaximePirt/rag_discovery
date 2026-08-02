@@ -1,0 +1,29 @@
+{
+  "name": "rag_discovery",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "tsx src/index.ts",
+    "dev": "tsx watch src/index.ts",
+    "check": "tsc --noEmit"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MaximePirt/rag_discovery.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/MaximePirt/rag_discovery/issues"
+  },
+  "homepage": "https://github.com/MaximePirt/rag_discovery#readme",
+  "devDependencies": {
+    "@types/node": "^26.1.2",
+    "tsx": "^4.23.4",
+    "typescript": "^7.0.2"
+  }
+}

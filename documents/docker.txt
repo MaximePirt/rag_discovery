@@ -1,0 +1,183 @@
+
+
+Wikipédial'encyclopédie libre
+Rechercher sur Wikipédia
+Rechercher
+Faire un don
+Créer un compte
+Se connecter
+Sommaire masquer
+Début
+Vue d’ensemble
+La notion de conteneur
+Histoire
+Environnement d’exécution (Runtime)
+Sécurité
+Intégration avec d'autres systèmes
+Outils associés
+Références
+Annexes
+
+Articles connexes
+Liens externes
+Docker (logiciel)
+
+Article
+Discussion
+Lire
+Modifier
+Modifier le code
+Voir l’historique
+
+Apparence masquer
+Taille du texte
+
+Petite
+
+Standard
+
+Grande
+Largeur
+
+Standard
+
+Large
+Couleur (bêta)
+
+Automatique
+
+Clair
+
+Sombre
+Page d’aide sur l’homonymie	
+Pour les articles homonymes, voir Docker (homonymie).
+
+Docker
+Description de l'image Docker Logo.png.
+Description de l'image Docker commands screenshot.webp.
+Informations
+Créateur	Solomon Hykes
+Développé par	Docker, Inc. (en)
+Première version	14 mars 2013
+Dernière version	29.6.2 (16 juillet 2026)[1]
+Dépôt	github.com/docker
+État du projet	En développement actif
+Écrit en	Go
+Système d'exploitation	Linux, Microsoft Windows, macOS et type Unix
+Environnement	Multi-plateforme
+Formats lus	Dockerfile (en)
+Formats écrits	Dockerfile (en)
+Type	Conteneur
+Politique de distribution	Parfois gratuit
+Licence	Licence propriétaire et licence Apache 2.0
+Documentation	docs.docker.com/engine
+Site web	www.docker.com
+modifier - modifier le code - voir Wikidata (aide)
+
+Docker est à la fois une bibliothèque et une plateforme logicielle permettant de faire tourner certaines applications dans des conteneurs. La première mouture de Docker a été publiée en 2013.
+
+Docker permet d'empaqueter une application et ses dépendances dans un conteneur isolé, qui peut être exécuté sur n'importe quel serveur. Il ne s'agit pas de virtualisation, mais de conteneurisation, une forme plus légère qui s'appuie sur certaines parties de la machine hôte pour son fonctionnement. Cette approche permet d'accroître la flexibilité et la portabilité d'exécution d'une application, laquelle peut tourner de façon fiable et prévisible sur une grande variété de machines hôtes, que ce soit sur une machine locale, un cloud privé ou public, une machine nue, etc.[2]
+
+Techniquement, Docker étend le format de conteneur Linux standard, LXC, avec une API de haut niveau fournissant une solution pratique de virtualisation qui exécute les processus de façon isolée[3]. Pour ce faire, Docker utilise entre autres LXC, cgroups et le noyau Linux lui-même[2]. Contrairement aux machines virtuelles traditionnelles, un conteneur Docker n'inclut pas de système d'exploitation, mais s'appuie au contraire sur les fonctionnalités du système d’exploitation fournies par la machine hôte[4].
+
+Docker peut être utilisée pour étendre des systèmes distribués de façon qu'ils s'exécutent de manière autonome depuis une seule machine physique ou une seule instance par nœud. Cela permet aux nœuds d'être déployés au fur et à mesure que les ressources sont disponibles, offrant un déploiement transparent et similaire aux PaaS pour des systèmes comme Apache Cassandra, Riak, ou d'autres systèmes distribués[5].
+
+Vue d’ensemble
+
+Schéma des interfaces de Docker.
+Docker permet la mise en œuvre de conteneurs s'exécutant en isolation, via une API de haut niveau. Construit sur des capacités du noyau Linux (surtout les cgroups et espaces de nommage), un conteneur Docker, à l'opposé de machines virtuelles traditionnelles, ne requiert aucun système d'exploitation séparé et n'en fournit aucun. Il s'appuie plutôt sur les fonctionnalités du noyau et utilise l'isolation de ressources (comme le processeur, la mémoire, les entrées et sorties et les connexions réseau) ainsi que des espaces de noms séparés pour isoler le système d'exploitation tel que vu par l'application. Docker accède aux capacités de virtualisation du noyau Linux, soit directement à travers la bibliothèque runc (disponible depuis Docker 0.9), soit indirectement via libvirt, LXC (Linux Containers) ou systemd-nspawn.
+
+Utiliser Docker pour créer et gérer des conteneurs peut simplifier la mise en œuvre de systèmes distribués en permettant à de multiples applications, tâches de fond et autres processus de s'exécuter de façon autonome sur une seule machine physique ou à travers un éventail de machines isolées. Ceci permet de déployer des nœuds en tant que ressources sur besoin, fournissant ainsi une plateforme de déploiement de style PaaS et l'extensibilité de systèmes tels Apache Cassandra, MongoDB ou Riak, ainsi que la simplification de la création et maintenance de queues de tâches ou autres systèmes distribués.
+
+La notion de conteneur
+L'objectif d'un conteneur est le même que pour un serveur dédié virtuel : héberger des services sur un même serveur physique tout en les isolant les uns des autres. Un conteneur est cependant moins figé qu'une machine virtuelle en matière de taille de disque et de ressources allouées.
+
+Un conteneur permet d'isoler chaque service : le serveur web, la base de données, des applications pouvant être exécutées de façon indépendante dans leur conteneur dédié, contenant uniquement les dépendances nécessaires. Chaque conteneur peut être relié aux autres par des réseaux virtuels. Il est possible de monter des volumes de disque de la machine hôte dans un conteneur. Si aucun processus n'est démarré dans le conteneur, alors celui-ci s'arrête. On parle parfois de virtualisation d'OS : contrairement à la virtualisation qui émule par logiciel différentes machines sur une machine physique, la conteneurisation émule différents OS sur un seul OS.
+
+Histoire
+Docker est développé par Solomon Hykes pour un projet interne de dotCloud, une entreprise française proposant une plate-forme en tant que service, avec les contributions d'Andrea Luzzardi et Francois-Xavier Bourlet, également employés de dotCloud. Docker est une évolution basée sur les technologies propriétaires de dotCloud, elles-mêmes construites sur des projets open source.
+
+Docker est distribué en tant que projet open source à partir de mars 2013[3].
+
+Il s'agit actuellement du moteur de conteneurisation le plus utilisé. Un grand avantage de Docker est la possibilité de modéliser chaque conteneur sous la forme d'une image que l'on peut stocker localement ou sur le Docker Hub, endroit public où de nombreuses images sont publiées et mises à jour régulièrement.
+
+En 2019 est annoncée la version 3 de la plateforme Docker lors de la conférence DockerCon 2019[6]. En novembre 2019, la société Docker revend son produit « Docker Enterprise » à Mirantis, et effectue une levée de fonds de près de 35 millions de dollars[7].
+
+Environnement d’exécution (Runtime)
+L’exécution des conteneurs avec Docker repose sur le standard de facto nommé containerd. Il s'agit d'un composant permettant l’exécution des conteneurs sur le système d'exploitation hôte.
+
+Docker peut être vu comme un ensemble d'outils permettant une gestion facilitée des conteneurs ainsi que de leur écosystème dans leur environnement containerd.
+
+En février 2019 containerd est devenu un projet à part entière au sein de la Cloud Native Computing Foundation (CNCF)[8]. Il est également l'un des environnements d'exécution du système d'orchestration de conteneurs Kubernetes qui n'utilise plus Docker comme environnement d’exécution depuis 2020[9].
+
+Sécurité
+Article détaillé : Sécurité de Docker.
+Intégration avec d'autres systèmes
+L'intégration de Docker a été faite avec les outils de gestion d'infrastructures suivants :
+
+Ansible[10]
+Chef[11]
+Puppet[12]
+ProGet[13]
+Salt[14]
+Vagrant[15]
+Jenkins[16]
+OpenStack Nova[17]
+OpenSVC[18]
+Le 19 septembre 2013, Red Hat et Docker ont annoncé une collaboration concernant Fedora, Red Hat Enterprise Linux et Openshift[19]. En mai 2015, Synology, un constructeur de NAS, intègre Docker dans son logiciel interne DSM v5.2[20].
+
+Outils associés
+Docker Compose est un logiciel pour définir et exécuter des applications à partir de multiples conteneurs. Il est basé sur un fichier YAML qui permet de définir les services et les paramètres de leurs créations et ainsi de les démarrer par une commande unique. La V1 avait son propre exécutable (docker-compose) alors que la V2 est un plugin de Docker, lançable par la commande docker compose.
+Références
+« v29.6.2 [archive] », 16 juillet 2026 (consulté le 18 juillet 2026)
+ Katherine Noyes, « Docker: A 'Shipping Container' for Linux Code [archive] », Linux, 1er août 2013 (consulté le 9 août 2013)
+ Abel Avram, « Docker: Automated and Consistent Software Deployments [archive] », InfoQ, 27 mars 2013 (consulté le 9 août 2013)
+Alex Williams, « The Matrix Of Hell And Two Open-Source Projects For The Emerging Agnostic Cloud [archive] », TechCrunch, 28 juillet 2013 (consulté le 9 août 2013)
+Adron Hall, « OSCON : Conversations, Deployments, Architecture, Docker and the Future? [archive] », CloudAve, 31 juillet 2013 (consulté le 9 août 2013)
+« Docker : une plateforme 3.0 pour lier toujours plus les développeurs aux containers… et à Kubernetes [archive] », sur LeMagIT (consulté le 7 mai 2019)
+« Que devient Docker ? [archive] », sur Journal du Net, 3 juillet 2020
+(en-US) « containerd [archive] », sur CNCF, 4 mars 2024 (consulté le 4 mars 2024)
+(en) « Don't Panic: Kubernetes and Docker [archive] », sur kubernetes.io, 2 décembre 2020 (consulté le 4 mars 2024)
+Ansible, Inc., « Ansible and Docker [archive] », sur www.ansible.com (consulté le 22 février 2016)
+(en) « thoward/docker-cookbook [archive] », sur GitHub (consulté le 12 décembre 2015)
+(en) « garethr/docker · Puppet Forge [archive] », sur forge.puppetlabs.com (consulté le 12 décembre 2015)
+(en) « containers docker registry [archive] », sur www.inedo.com (consulté le 12 novembre 2017)
+(en) « Using SaltStack in production to manage Docker application containers [archive] », sur saltstack.com, 3 décembre 2014
+« github.com/philspitler/vagrant… »(Archive.org • Wikiwix • Google • Que faire ?).
+(en) « georgebashi/jenkins-docker-plugin [archive] », sur GitHub (consulté le 12 décembre 2015)
+(en) « OpenStack Community Weekly Newsletter (May 31 – June 7) [archive] », sur www.openstack.org, 7 juin 2013 (consulté le 12 décembre 2015)
+(en) « OpenSVC documentation — OpenSVC documentation [archive] », sur docs.opensvc.com (consulté le 12 décembre 2015)
+(en) Alex Williams, « DotCloud Pivots And Wins Big With Docker, The Cloud Service Now Part Of Red Hat OpenShift [archive] », 19 septembre 2013 (consulté le 12 décembre 2015)
+http://www.cachem.fr/synology-dsm-5-2-disponible-version-finale/ [archive] DSM v5.2
+Annexes
+Sur les autres projets Wikimedia :
+
+Docker (logiciel), sur Wikibooks
+Articles connexes
+Microservices
+Devops
+LXC
+Podman
+Liens externes
+(en) Docker: Accelerated Container Application Development [archive]
+ [masquer]
+v · m
+Virtualisation
+Hyperviseur	
+Hyper-VVMware ESX vSpherevCloudXenKVMOracle VMProxmox VEoVirt
+Isolateur	
+PodmanBSD JailchrootDockerLinux-VServerLXCOpenVZ
+Noyau en espace utilisateur	
+Cooperative LinuxUser Mode Linux
+Machine virtuelle et/ou émulateur	
+BochsBox64Box86 (en)DOSBoxParallels DesktopPearPCPlex86QEMUVirtualBoxTinyEmuVMWare WorkstationVirtualPCVirtual ServerZ-machine
+Autre	
+LPARGanetilibvirtFlatpakVagrant
+icône décorative Portail des entreprises icône décorative Portail de Linux icône décorative Portail des logiciels libres icône décorative Portail de l’informatique
+Catégories : Logiciel écrit en GoEntreprise informatique ayant son siège aux États-UnisÉditeur de logicielLogiciel de virtualisation[+]
+La dernière modification de cette page a été faite le 16 avril 2026 à 10:28. La page a été rendue avec Parsoid.
+Droit d'auteur : les textes sont disponibles sous licence Creative Commons attribution, partage dans les mêmes conditions ; d’autres conditions peuvent s’appliquer. Voyez les conditions d’utilisation pour plus de détails, ainsi que les crédits graphiques. En cas de réutilisation des textes de cette page, voyez comment citer les auteurs et mentionner la licence.
+Wikipedia® est une marque déposée de la Wikimedia Foundation, Inc., organisation de bienfaisance régie par le paragraphe 501(c)(3) du code fiscal des États-Unis.
+Politique de confidentialitéÀ propos de WikipédiaAvertissementsContactContacts juridiques & sécuritéCode de conduiteDéveloppeursStatistiquesDéclaration sur les témoins (cookies)Version mobile
+Wikimedia Foundation
+Powered by MediaWiki
