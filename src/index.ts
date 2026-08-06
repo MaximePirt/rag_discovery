@@ -48,22 +48,16 @@ async function main() : Promise <void>
 		const idf = rag_f.inverseDocumentFrequency(docFrequency, tfChunks.length)
 		// console.log("Here is idf :", idf)
 
-		let tfidfChunks: Map<string, number>[] = []
-		for ( const i of tfChunks)
-		{
-			const tfidf = rag_f.computeTfIdf(i, idf)
-			tfidfChunks.push(tfidf)
-		}
-		// console.log("Here is tfidfChunks :", tfidfChunks)
-
 //------------------------- Create DataChunks
 		const dataChunks: rag_f.DataChunk[] = []
 		for (let i = 0; i < chunks.length; i++)
 		{
 			const chunk = chunks[i]
 			const tf = tfChunks[i]
-			const tfidf = tfidfChunks[i]
-			if (chunk == undefined || tf == undefined || tfidf == undefined)
+			if (tf == undefined)
+				continue
+			const tfidf = rag_f.computeTfIdf(tf, idf)
+			if (chunk == undefined || tfidf == undefined)
 				continue
 			const dataChunk = rag_f.createDataChunk(chunk, tf, tfidf)
 			dataChunks.push(dataChunk)
