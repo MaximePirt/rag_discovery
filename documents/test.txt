@@ -1,2 +1,3 @@
-docker compose docker service
-test
+C1 : docker compose service
+C2 : docker postgres database
+C3 : docker network container

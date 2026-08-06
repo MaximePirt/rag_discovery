@@ -59,7 +59,7 @@ async function listfiles(folder: string) : Promise <string[]>{
  */
 function splitIntoChunks(fileContent: string): string[] {
 	const chunks: string[] = [];
-	const maxLength = 500;
+	const maxLength = 30;
 
 	let remainingText = fileContent.trim();
 	while (remainingText.length > maxLength) {

@@ -11,12 +11,12 @@ async function main() : Promise <void>
 
 	try {
 //------------------------- Parse documents and create chunks
-		const files =  await parse_f.listfiles("./documents");
-		if (!files)
-			throw Error
+		// const files =  await parse_f.listfiles("./documents");
+		// if (!files)
+		// 	throw Error
 		// TODO : DEBUG variable
 
-		// const files = ['test.txt']
+		const files = ['test.txt']
 		const bookContent = await parse_f.readfiles(files);
 		if (!bookContent)
 			throw Error
@@ -29,21 +29,47 @@ async function main() : Promise <void>
 			const {filename, content } = pairs
 			chunks.push(...parse_f.createChunk(content, filename))
 		}
-		console.log("Here is chunks :", chunks)
+		// console.log("Here is chunks :", chunks)
 
 //------------------------- Calculate TF-IDF
 
-		const calcChunk: rag_f.DataChunk[] = []
+
+		const tfChunks: Map<string, number>[] = []
 		for (const i of chunks)
 		{
 			const frequency = rag_f.tokenFrequency(i.tokens)
-			console.log("Here is frequency for chunk", i.id, ":", frequency)
-			calcChunk.push({ ...i, tf: frequency })
+			tfChunks.push(frequency)
 		}
-		console.log("Here is calcChunk :", calcChunk)
+		// console.log("Here is tfChunks :", tfChunks)
 
-		const docFrequency = rag_f.documentFrequency(calcChunk)
-		console.log("Here is docFrequency :", docFrequency)
+		const docFrequency = rag_f.documentFrequency(tfChunks)
+		// console.log("Here is docFrequency :", docFrequency)
+		
+		const idf = rag_f.inverseDocumentFrequency(docFrequency, tfChunks.length)
+		// console.log("Here is idf :", idf)
+
+		let tfidfChunks: Map<string, number>[] = []
+		for ( const i of tfChunks)
+		{
+			const tfidf = rag_f.computeTfIdf(i, idf)
+			tfidfChunks.push(tfidf)
+		}
+		// console.log("Here is tfidfChunks :", tfidfChunks)
+
+//------------------------- Create DataChunks
+		const dataChunks: rag_f.DataChunk[] = []
+		for (let i = 0; i < chunks.length; i++)
+		{
+			const chunk = chunks[i]
+			const tf = tfChunks[i]
+			const tfidf = tfidfChunks[i]
+			if (chunk == undefined || tf == undefined || tfidf == undefined)
+				continue
+			const dataChunk = rag_f.createDataChunk(chunk, tf, tfidf)
+			dataChunks.push(dataChunk)
+		}
+		console.log("Here is dataChunks :", dataChunks)
+
 
 	}
 	catch (error) {
