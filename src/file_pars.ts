@@ -105,8 +105,15 @@ function tokenize(text: string): string[] {
 	return res
 }
 
-let nextId = 0
+
+/**
+ * @brief Creates an array of Chunk objects from the given file content and filename.
+ * @param fileContent 
+ * @param filename 
+ * @returns 
+ */
 function createChunk(fileContent: string, filename: string){
+	let nextId = 0
 	let chunksTable: Chunk[] = []
 
 	const textChunks = splitIntoChunks(fileContent)
