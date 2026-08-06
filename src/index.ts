@@ -11,12 +11,12 @@ async function main() : Promise <void>
 
 	try {
 //------------------------- Parse documents and create chunks
-		// const files =  await parse_f.listfiles("./documents");
-		// if (!files)
-		// 	throw Error
+		const files =  await parse_f.listfiles("./documents");
+		if (!files)
+			throw Error
 		// TODO : DEBUG variable
 
-		const files = ['test.txt']
+		// const files = ['test.txt']
 		const bookContent = await parse_f.readfiles(files);
 		if (!bookContent)
 			throw Error
@@ -42,7 +42,8 @@ async function main() : Promise <void>
 		}
 		console.log("Here is calcChunk :", calcChunk)
 
-
+		const docFrequency = rag_f.documentFrequency(calcChunk)
+		console.log("Here is docFrequency :", docFrequency)
 
 	}
 	catch (error) {

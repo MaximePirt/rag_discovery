@@ -46,7 +46,27 @@ function tokenFrequency(tokens: string[]): Map<string, number> {
 	return res;
 }
 
+/**
+ * @brief Calculates the document frequency (DF) for each unique token across the given array of DataChunk objects.
+ * @param chunks 
+ * @returns Map<string, number> A map where keys are unique tokens and values are the number of documents in which each token appears.
+ */
+function documentFrequency(chunks: DataChunk[]): Map<string, number> {
+	const frequency = new Map<string, number>();
+	for (const i of chunks)
+	{
+		for (const term of i.tf.keys())
+		{
+			const currentCount = frequency.get(term) ?? 0;
+			frequency.set(term, currentCount + 1);
+		}
+	}
+
+	return frequency;
+}
+
 export {
 		tokenCount,
 		tokenFrequency,
+		documentFrequency
 	}
