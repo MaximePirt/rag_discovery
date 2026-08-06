@@ -101,7 +101,7 @@ function splitIntoChunks(fileContent: string): string[] {
  * @returns string[] An array of tokens extracted from the input text.
  */
 function tokenize(text: string): string[] {
-	const res = text.split(/\s+/).filter(token => token.length > 0);
+	const res = text.toLowerCase().split(/\s+/).filter(token => token.length > 0);
 	return res
 }
 
