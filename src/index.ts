@@ -1,6 +1,7 @@
 import * as parse_f from "./file_pars.js"
 import * as rag_f from "./tf-idf.js"
 import * as interface_i from "./interface.js"
+import * as c from "./chunk.js"
 
 
 /**
@@ -51,7 +52,7 @@ async function main() : Promise <void>
 			if (pairs == undefined)
 				continue
 			const {filename, content } = pairs
-			chunks.push(...parse_f.createChunk(content, filename))
+			chunks.push(...c.createChunk(content, filename))
 		}
 
 //------------------------- Calculate TF-IDF
@@ -78,7 +79,7 @@ async function main() : Promise <void>
 			const tfidf = rag_f.computeTfIdf(tf, idf)
 			if (chunk == undefined || tfidf == undefined)
 				continue
-			const dataChunk = rag_f.createDataChunk(chunk, tf, tfidf)
+			const dataChunk = c.createDataChunk(chunk, tf, tfidf)
 			dataChunks.push(dataChunk)
 		}
 

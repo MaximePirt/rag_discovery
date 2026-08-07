@@ -2,10 +2,7 @@ import * as parse_f from "./file_pars.js"
 import * as interface_i from "./interface.js"
 
 
-function createDataChunk(chunk: interface_i.Chunk, tf: Map<string, number>, tfidf: Map<string, number>): interface_i.DataChunk {
-	return { ...chunk, tf: tf, tfidf: tfidf }
 
-}
 
 /**
  * @brief Counts the occurrences of each token in the given array of tokens.
@@ -147,6 +144,5 @@ export {
 		documentFrequency,
 		inverseDocumentFrequency,
 		computeTfIdf,
-		createDataChunk,
 		cosineSimilarity,
 	}
