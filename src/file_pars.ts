@@ -30,7 +30,7 @@ async function listfiles(folder: string) : Promise <string[]>{
  * @returns string[] An array of tokens extracted from the input text.
  */
 function tokenize(text: string): string[] {
-	const res = text.toLowerCase().split(/\s+|(?<!\d)[.!?…]+|[!?…]+|\.(?!\d)/).filter(token => token.length > 0);
+	const res = text.toLowerCase().split(/\s+|[,!?…]+|(?<!\d)\.+|\.(?!\d)/).filter(token => token.length > 0);
 	return res
 }
 
