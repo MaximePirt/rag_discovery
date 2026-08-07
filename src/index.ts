@@ -42,6 +42,11 @@ async function main() : Promise <void>
 {
 
 	try {
+		const query = process.argv.slice(2).join(" ").trim();
+	
+		if (!query)
+			throw new Error("No query provided. Please provide a query as a command line argument. : npm start -- \"your query here\"");
+		
 		//------------ Parse documents and create chunks
 		const chunks = await parse_f.parseAndChunkDocuments()
 
@@ -49,7 +54,7 @@ async function main() : Promise <void>
 		const { dataChunks, idf } = search_f.buildIndex(chunks)
 
 		//------------ Query processing & Cosine similarity calculation
-		const cosineSimilarities = search_f.search(dataChunks, idf)
+		const cosineSimilarities = search_f.search(query, dataChunks, idf)
 
 		displayResults(cosineSimilarities)
 

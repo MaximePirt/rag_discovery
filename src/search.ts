@@ -15,16 +15,9 @@ import * as parse_f from './file_pars.js'
  * @note The similarity scores are calculated using cosine similarity, which measures the cosine of the angle between two vectors in a multi-dimensional space.
  * @note The results are sorted in descending order of similarity, so the most relevant DataChunks appear first in the returned array.
  */
-function search(dataChunks: interface_i.DataChunk[], idf: Map<string, number>): interface_i.SearchResult[]
+function search(query: string, dataChunks: interface_i.DataChunk[], idf: Map<string, number>): interface_i.SearchResult[]
 {
 	//----------  Query processing
-	const args = process.argv.slice(2)
-	const query = args[0]
-
-	if (!query) {
-		throw new Error("No query provided. Please provide a query as a command line argument.");
-	}
-
 	const queryTokens = parse_f.tokenize(query)
 	const queryTf = rag_f.tokenFrequency(queryTokens)
 	const queryTfidf = rag_f.computeTfIdf(queryTf, idf)
