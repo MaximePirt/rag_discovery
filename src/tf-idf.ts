@@ -1,17 +1,8 @@
 import * as parse_f from "./file_pars.js"
+import * as interface_i from "./interface.js"
 
-/**
- * @brief Extends the Chunk interface from file_pars.ts to include term frequency (tf) information.
- * @interface DataChunk
- * @extends {parse_f.Chunk}
- * @property {Map<string, number>} tf - A map where keys are tokens and values are their respective term frequencies.
- */
-export interface DataChunk extends parse_f.Chunk {
-	tf: Map<string, number>;
-	tfidf: Map<string, number>;
-}
 
-function createDataChunk(chunk: parse_f.Chunk, tf: Map<string, number>, tfidf: Map<string, number>): DataChunk {
+function createDataChunk(chunk: interface_i.Chunk, tf: Map<string, number>, tfidf: Map<string, number>): interface_i.DataChunk {
 	return { ...chunk, tf: tf, tfidf: tfidf }
 
 }

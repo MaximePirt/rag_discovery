@@ -1,33 +1,8 @@
 import { readFileSync } from 'fs';
 import * as fs from 'fs/promises'
 import * as Path from 'path'
+import * as interface_i from './interface.js'
 
-
-/**
- * @brief Represents a chunk of text extracted from a document, along with its metadata.
- * @property id - A unique identifier for the chunk.
- * @property documentName - The name of the document from which the chunk was extracted.
- * @property ref - A reference string that indicates the position of the chunk within the document.
- * @property text - The actual text content of the chunk.
- * @property tokens - An array of tokens (words) extracted from the text content.
- */
-export interface Chunk{
-	id: number;
-	documentName: string;
-	ref: string;
-	text: string;
-	tokens: string[];
-}
-
-/**
- * @brief Represents the content of a file, including its filename and the actual content.
- * @property filename - The name of the file.
- * @property content - The content of the file as a string.
- */
-interface FileContent {
-	filename: string;
-	content: string;
-}
 
 /**
  * @brief 	Lists all files in the specified folder that have a .md or .txt extension.
@@ -39,7 +14,6 @@ async function listfiles(folder: string) : Promise <string[]>{
 
 	try{
 		let files = await fs.readdir(folder)
-		console.log("Here is files :", files)
 		const res = files.filter(
 			filename => filename.endsWith(".md") || filename.endsWith(".txt"),)
 		return res
@@ -59,7 +33,7 @@ async function listfiles(folder: string) : Promise <string[]>{
  */
 function splitIntoChunks(fileContent: string): string[] {
 	const chunks: string[] = [];
-	const maxLength = 30;
+	const maxLength = 500;
 
 	let remainingText = fileContent.trim();
 	while (remainingText.length > maxLength) {
@@ -101,7 +75,7 @@ function splitIntoChunks(fileContent: string): string[] {
  * @returns string[] An array of tokens extracted from the input text.
  */
 function tokenize(text: string): string[] {
-	const res = text.toLowerCase().split(/\s+/).filter(token => token.length > 0);
+	const res = text.toLowerCase().split(/\s+|(?<!\d)[.!?…]+|[!?…]+|\.(?!\d)/).filter(token => token.length > 0);
 	return res
 }
 
@@ -114,14 +88,14 @@ function tokenize(text: string): string[] {
  */
 function createChunk(fileContent: string, filename: string){
 	let nextId = 0
-	let chunksTable: Chunk[] = []
+	let chunksTable: interface_i.Chunk[] = []
 
 	const textChunks = splitIntoChunks(fileContent)
 	for (let position = 0; position < textChunks.length; position++){
 		const text = textChunks[position];
 		if (text == undefined)
 			continue
-		const chunk: Chunk = {
+		const chunk: interface_i.Chunk = {
 			id: nextId++,
 			documentName: filename,
 			ref: `${filename}#${position}`,
@@ -139,9 +113,9 @@ function createChunk(fileContent: string, filename: string){
  * @param files  - An array of filenames to read from the "./documents" directory
  * @returns Filecontent[] - Array of objects containing filename and content
  */
-async function readfiles(files : string[]) : Promise <FileContent[]> {
+async function readfiles(files : string[]) : Promise <interface_i.FileContent[]> {
 	try{
-		const bookContents: FileContent[] = [];
+		const bookContents: interface_i.FileContent[] = [];
 		for (const filename of files)
 		{
 			const content = await fs.readFile(Path.join("./documents", filename), "utf-8")
