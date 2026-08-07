@@ -103,17 +103,51 @@ function inverseDocumentFrequency(documentFrequency: Map<string, number>, totalC
  */
 function computeTfIdf(tf: Map<string, number>, idf: Map<string, number>): Map<string, number> {
 	const tfidf = new Map<string, number>();
-
 	for (const [term, tfvalue] of tf)
 	{
 		const score = idf.get(term)
 		if (score === undefined)
 			continue;
-
 		tfidf.set(term, tfvalue * score);
 	}
 
 	return tfidf;
+}
+
+
+/**
+ * @brief Calculates the cosine similarity between two vectors
+ * 		represented as maps of tokens and their respective values.
+ * @param vectorA
+ * @param vectorB 
+ * @returns number result of the cosine similarity calculation, ranging from 0 (no similarity) to 1 (identical vectors).
+ * @note The cosine similarity is calculated using the formula:
+ * 		cosine_similarity(A, B) = (A . B) / (||A|| * ||B||)
+ * 		where A . B is the dot product of vectors A and B,
+ * 		and ||A|| and ||B|| are the magnitudes (lengths) of vectors A and B, respectively.
+ * @note If either vector has a magnitude of 0, the function returns 0 to avoid division by zero.
+ */
+function cosineSimilarity(vectorA: Map<string, number>, vectorB: Map<string, number>) : number {
+	let dot = 0;
+	let vecASquareSum = 0;
+	let vecBquareSum = 0;
+
+	for (const [term, valueA] of vectorA)
+	{
+		vecASquareSum += valueA **2;
+		const valueB = vectorB.get(term) ?? 0;
+		dot += valueA * valueB;
+	}
+	for (const valueB of vectorB.values())
+		vecBquareSum += valueB **2;
+
+	const Asquare = Math.sqrt(vecASquareSum);
+	const Bsquare = Math.sqrt(vecBquareSum);
+	
+	if (Asquare === 0 || Bsquare === 0)
+		return 0;
+
+	return dot / (Asquare * Bsquare);
 }
 
 export {
@@ -122,5 +156,6 @@ export {
 		documentFrequency,
 		inverseDocumentFrequency,
 		computeTfIdf,
-		createDataChunk
+		createDataChunk,
+		cosineSimilarity,
 	}

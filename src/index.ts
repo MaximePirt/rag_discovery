@@ -1,6 +1,11 @@
 import * as parse_f from "./file_pars.js"
 import * as rag_f from "./tf-idf.js"
 
+interface SearchResult {
+	chunk: rag_f.DataChunk;
+	similarity: number;
+}
+
 /**
  * @brief The main function that orchestrates files parsing, chunk creation,
  * 		and RAG (Retrieval-Augmented Generation) processing.
@@ -62,8 +67,32 @@ async function main() : Promise <void>
 			const dataChunk = rag_f.createDataChunk(chunk, tf, tfidf)
 			dataChunks.push(dataChunk)
 		}
-		console.log("Here is dataChunks :", dataChunks)
+		// console.log("Here is dataChunks :", dataChunks)
 
+//------------------------- Query processing
+		const query = "What is the main topic 1.2.3? of the database?"
+
+		const queryTokens = parse_f.tokenize(query)
+		const queryTf = rag_f.tokenFrequency(queryTokens)
+		const queryTfidf = rag_f.computeTfIdf(queryTf, idf)
+
+		console.log("Here is queryTfidf :", queryTfidf)
+
+//------------------------- Cosine similarity calculation
+
+		const cosineSimilarities: SearchResult[] = []
+		for (const dataChunk of dataChunks)
+		{
+			const similarity = rag_f.cosineSimilarity(queryTfidf, dataChunk.tfidf)
+			cosineSimilarities.push({ chunk: dataChunk, similarity: similarity })
+		}
+
+		cosineSimilarities.sort((a, b) => b.similarity - a.similarity)
+
+//------------------------- Display results
+		console.log("Here is cosineSimilarities :", cosineSimilarities)
+
+		
 
 	}
 	catch (error) {

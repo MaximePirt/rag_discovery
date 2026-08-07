@@ -160,4 +160,5 @@ async function readfiles(files : string[]) : Promise <FileContent[]> {
 export { 	listfiles,
 			readfiles,
 			createChunk,
+			tokenize,
 		}
