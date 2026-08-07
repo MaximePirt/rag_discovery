@@ -33,6 +33,10 @@ function displayResults(results: interface_i.SearchResult[]): void {
  * @brief The main function that orchestrates files parsing, chunk creation,
  * 		and RAG (Retrieval-Augmented Generation) processing.
  * @returns void
+ * @note Project need to be run with a query as a command line argument, e.g., `npm start -- "your query here"`.
+ * 		Project will throw an error if no query is provided.
+ * @note The function first parses and chunks the documents, then builds an index of DataChunks with their TF-IDF vectors.
+ * 		Finally, it processes the query and calculates cosine similarity scores to find the most relevant DataChunks.
  */
 async function main() : Promise <void>
 {
