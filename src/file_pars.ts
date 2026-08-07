@@ -1,7 +1,7 @@
 import * as fs from 'fs/promises'
 import * as Path from 'path'
 import * as interface_i from './interface.js'
-
+import * as c from './chunk.js'
 
 /**
  * @brief 	Lists all files in the specified folder that have a .md or .txt extension.
@@ -57,9 +57,37 @@ async function readfiles(files : string[]) : Promise <interface_i.FileContent[]>
 	}
 }
 
+/**
+ * @brief Parses the documents in the "./documents" directory and creates chunks from them.
+ * @returns Promise<interface_i.Chunk[]> A promise resolving to an array of Chunk objects.
+ * @throws Error if no files are found or if reading files fails.
+ * @note The function first lists all .md and .txt files in the "./documents" directory, reads their content, and then creates chunks from the content of each file.
+ * @note Each chunk is created using the createChunk function, which splits the content into smaller pieces and tokenizes them.
+ */
+async function parseAndChunkDocuments(): Promise<interface_i.Chunk[]> {
+	const files =  await listfiles("./documents");
+	if (!files)
+		throw Error
+
+	const bookContent = await readfiles(files);
+	if (!bookContent)
+		throw Error
+	const chunks: interface_i.Chunk[] = []
+	for (let i = 0; i < bookContent.length; i++)
+	{
+		const pairs = bookContent[i]
+		if (pairs == undefined)
+			continue
+		const {filename, content } = pairs
+		chunks.push(...c.createChunk(content, filename))
+	}
+	return chunks
+}
+
 
 
 export { 	listfiles,
 			readfiles,
 			tokenize,
+			parseAndChunkDocuments
 		}
