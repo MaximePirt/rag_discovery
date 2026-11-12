@@ -1,0 +1,16 @@
+title: RAG Discovery
+origin: personal
+domains: [data]
+summary:
+  fr: Perso • TypeScript / Node.js
+  en: Personal • TypeScript / Node.js
+description:
+  fr: >
+    Système d'exploration et d'apprentissage du RAG (Retrieval-Augmented Generation).
+    Implémente un pipeline complet : ingestion de documents, chunking, tokenisation,
+    indexation TF-IDF et recherche sémantique par similarité cosinus.
+  en: >
+    Learning project exploring RAG (Retrieval-Augmented Generation). Implements a complete
+    pipeline: document ingestion, chunking, tokenization, TF-IDF indexing, and semantic
+    search via cosine similarity.
+stack: [TypeScript, Node.js, TF-IDF]
